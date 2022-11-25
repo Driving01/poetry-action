@@ -29,6 +29,7 @@ runs:
         restore-keys: |
           ${{ inputs.os }}-${{ inputs.python-version }}-poetry-${{ steps.poetry-version.outputs.version }}-${{ hashFiles('**/poetry.lock') }}
     - name: Install dependencies
+      shell: bash
       run: |
         poetry install
       if: steps.cache.outputs.cache-hit != 'true'
