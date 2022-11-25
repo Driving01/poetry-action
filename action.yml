@@ -9,6 +9,7 @@ runs:
   using: "composite"
   steps:
     - name: Install Poetry
+      shell: bash
       run: |
         python -m pip install --upgrade pip
         python -m pip install poetry
@@ -16,6 +17,7 @@ runs:
         poetry config virtualenvs.in-project false
         poetry config virtualenvs.path .virtualenvs
     - name: Poetry Version
+      shell: bash
       id: poetry-version
       run: echo "::set-output name=version::$(poetry --version | grep -oP '[\d\.]+')"
     - name: Cache Poetry virtualenv
@@ -27,6 +29,7 @@ runs:
         restore-keys: |
           ${{ inputs.os }}-${{ inputs.python-version }}-poetry-${{ steps.poetry-version.outputs.version }}-${{ hashFiles('**/poetry.lock') }}
     - name: Install dependencies
+      shell: bash
       run: |
         poetry install
       if: steps.cache.outputs.cache-hit != 'true'
